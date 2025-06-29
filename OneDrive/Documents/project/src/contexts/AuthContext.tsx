@@ -87,7 +87,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       const authData = await SupabaseService.signIn(email, password)
       if (authData.user) {
-        const profile = await SupabaseService.getUserProfile(authData.user.id)
+        // Try to get profile
+        let profile = await SupabaseService.getUserProfile(authData.user.id)
+        // If profile does not exist, create it now
+        if (!profile) {
+          profile = await SupabaseService.createUserProfile({
+            id: authData.user.id,
+            email: authData.user.email,
+            full_name: authData.user.user_metadata?.full_name || '',
+            role: 'donor', // Default, you may want to prompt user for this
+            blood_type: undefined,
+            location: undefined,
+            phone: undefined,
+            verified: false
+          })
+        }
         if (profile) {
           setUser({
             id: profile.id,
@@ -119,42 +133,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const authData = await SupabaseService.signUp(userData.email, userData.password, {
         full_name: userData.name
       })
-      
+
       if (authData.user) {
+        // If email verification is enabled, do NOT create profile yet
         toast.success('Registration successful! Please check your email to verify your account before continuing.');
         return true;
-        // Create user profile
-        const profile = await SupabaseService.createUserProfile({
-          id: authData.user.id,
-          email: userData.email,
-          full_name: userData.name,
-          role: userData.role,
-          blood_type: userData.bloodType,
-          location: userData.location,
-          phone: userData.phone,
-          verified: false
-        })
-        
-        if (profile) {
-          setUser({
-            id: profile.id,
-            email: profile.email,
-            name: profile.full_name,
-            role: profile.role,
-            bloodType: profile.blood_type || undefined,
-            location: profile.location || undefined,
-            phone: profile.phone || undefined,
-            walletAddress: profile.wallet_address || undefined,
-            verified: profile.verified
-          })
-          toast.success('Registration successful!')
-          return true
-        }
       }
-      return false
+      return false;
     } catch (error) {
       toast.error('Registration failed. Please try again.')
-      return false
+      return false;
     } finally {
       setIsLoading(false)
     }
