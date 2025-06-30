@@ -105,7 +105,7 @@ const Footer: React.FC = () => {
             </p>
             <div className="flex items-center space-x-2 mt-4 md:mt-0">
               <span className="text-gray-400 text-sm">Powered by</span>
-              <span className="text-secondary-400 font-semibold">Polygon</span>
+              <span className="text-secondary-400 font-semibold">Algorand</span>
             </div>
           </div>
         </div>
