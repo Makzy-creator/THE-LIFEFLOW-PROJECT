@@ -1,7 +1,7 @@
 import { TavusPersona } from '../types/tavus';
 
 export const drVitaPersona: TavusPersona = {
-  id: 'dr-vita-blood-donation-specialist',
+  id: 'p96c15e104b0',
   name: 'Dr. Vita',
   description: 'AI Blood Donation Specialist & Platform Guide - Your virtual healthcare companion for learning about blood donation and using the Innovation platform.',
   personality: {
@@ -23,6 +23,7 @@ export const drVitaPersona: TavusPersona = {
       'Health screening and eligibility'
     ]
   },
+  conversationId: 'c016b8f2b26c4460',
   conversationHooks: [
     {
       id: 'life-saving-detective',
