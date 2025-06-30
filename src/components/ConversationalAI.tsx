@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
+
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   ChatBubbleLeftRightIcon, 
@@ -79,6 +80,25 @@ const ConversationalAI: React.FC = () => {
       timestamp: new Date()
     }
     setMessages(prev => [...prev, newMessage])
+
+    // Browser TTS: calm female voice
+    if (synthRef.current && 'speechSynthesis' in window) {
+      const voices = window.speechSynthesis.getVoices();
+      // Try to find a calm female voice
+      let femaleVoice = voices.find(v => v.lang.startsWith('en') && v.gender === 'female');
+      if (!femaleVoice) {
+        // fallback: pick a female-sounding name
+        femaleVoice = voices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('susan') || v.name.toLowerCase().includes('emma') || v.name.toLowerCase().includes('linda') || v.name.toLowerCase().includes('samantha'));
+      }
+      const utterance = new SpeechSynthesisUtterance(content);
+      utterance.rate = 0.95;
+      utterance.pitch = 1.1;
+      utterance.volume = 0.85;
+      if (femaleVoice) utterance.voice = femaleVoice;
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      window.speechSynthesis.speak(utterance);
+    }
   }
 
   const addUserMessage = (content: string) => {
@@ -139,19 +159,6 @@ const ConversationalAI: React.FC = () => {
     try {
       const aiResponse = await getAIResponse(userMessage)
       addAIMessage(aiResponse)
-      
-      // Text-to-speech for AI response
-      if (synthRef.current && !synthRef.current.speaking) {
-        const utterance = new SpeechSynthesisUtterance(aiResponse)
-        utterance.rate = 0.9
-        utterance.pitch = 1
-        utterance.volume = 0.8
-        
-        utterance.onstart = () => setIsSpeaking(true)
-        utterance.onend = () => setIsSpeaking(false)
-        
-        synthRef.current.speak(utterance)
-      }
     } catch (error) {
       addAIMessage("I apologize, but I'm having trouble processing your request right now. Please try again or contact our support team for assistance.")
     } finally {
@@ -212,7 +219,7 @@ const ConversationalAI: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="fixed bottom-6 right-6 z-50 w-96 h-[600px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col"
+            className="fixed bottom-6 right-6 z-50 w-96 h-[570px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gradient-to-r from-primary-600 to-secondary-600 text-white rounded-t-lg">
@@ -286,10 +293,10 @@ const ConversationalAI: React.FC = () => {
                     <p className="text-xs opacity-70 mt-1">
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
+
                   </div>
                 </div>
               ))}
-              
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="bg-gray-100 p-3 rounded-lg">
