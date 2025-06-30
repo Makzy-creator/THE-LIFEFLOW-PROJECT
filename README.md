@@ -2,29 +2,29 @@
 
 **Your one pint of blood can save 5 Lives**
 
-A revolutionary blood donation platform built on Polygon with smart contracts, NFT certificates, and real-time AI assistance.
+A revolutionary blood donation platform built on Algorand with smart contracts, NFT certificates, and real-time AI assistance.
 
 ## 🚀 Hackathon Features
 
-### ✅ Polygon Smart Contracts
-- **Blood Donation Backend**: Immutable donation records with verification
-- **NFT Certificate System**: Blockchain-verified donation certificates
-- **Donor Registration**: On-chain donor profiles and eligibility tracking
+### ✅ Algorand Smart Contracts
+- **Blood Donation Backend**: Immutable donation records with verification (Algorand Layer 1/ASC1)
+- **NFT Certificate System**: Algorand Standard Assets (ASA) for donation certificates
+- **Donor Registration**: On-chain donor profiles and eligibility tracking (Algorand accounts)
 - **Request Management**: Transparent blood request system
 
 ### ✅ Real Wallet Integration
-- **Internet Identity**: Secure authentication with Polygon
-- **Principal-based**: Unique blockchain identities for all users
+- **Algorand Wallet**: Secure authentication with Algorand
+- **Account-based**: Unique Algorand addresses for all users
 - **Auto-connect**: Seamless wallet integration experience
 
 ### ✅ NFT Certificates
-- **Automatic Minting**: NFT certificates for every verified donation
+- **Automatic Minting**: ASA (NFT) certificates for every verified donation
 - **Rich Metadata**: Blood type, amount, location, timestamp
 - **Downloadable**: Generate certificate images
 - **Shareable**: Social media integration for impact sharing
 
 ### ✅ Immutable Records
-- **Blockchain Storage**: All donations stored on blockchain for transparency
+- **Algorand Storage**: All donations stored on Algorand blockchain for transparency
 - **Verification System**: Medical professional verification workflow
 - **Audit Trail**: Complete transaction history
 - **Transparency**: Public verification of donation records
@@ -34,9 +34,9 @@ A revolutionary blood donation platform built on Polygon with smart contracts, N
 ```
 Frontend (React/TypeScript)
     ↓
-ICP Agent (Authentication & Communication)
+Algorand Wallet (Authentication & Communication)
     ↓
-Smart Contracts (Motoko)
+Algorand Smart Contracts (ASC1/TEAL/PyTeal)
     ├── Blood Donation Backend
     └── NFT Certificate System
 ```
@@ -44,68 +44,75 @@ Smart Contracts (Motoko)
 ## 🛠️ Setup & Deployment
 
 ### Prerequisites
-- [DFX SDK](https://internetcomputer.org/docs/current/developer-docs/setup/install/) installed
 - Node.js 16+ and npm
-- Polygon wallet (Internet Identity)
+- Algorand wallet (Pera, MyAlgo, etc.)
+- Python 3.8+ (for PyTeal smart contracts)
 
-### Local Development
-
-1. **Start Polygon Replica**
-```bash
-dfx start --background
-```
-
-2. **Deploy Canisters**
-```bash
 dfx deploy
-```
-
-3. **Install Dependencies**
+1. **Install Dependencies**
 ```bash
 npm install
 ```
 
-4. **Start Frontend**
+2. **Start Frontend**
 ```bash
 npm run dev
 ```
 
+dfx deploy --network ic
+1. **Install Dependencies**
+```bash
+npm install
+```
+
+2. **Start Frontend**
+```bash
+npm run dev
+```
+### Local Development
+
+1. **Install Dependencies**
+```bash
+npm install
+npm install algosdk
+```
+
+2. **Start Frontend**
+```bash
+npm run dev
+```
 ### Production Deployment
 
-1. **Deploy to IC Mainnet**
-```bash
-dfx deploy --network ic
-```
+1. **Deploy Algorand Smart Contracts**
+   - Use PyTeal or Reach to compile and deploy contracts to Algorand MainNet/TestNet.
+   - Update contract addresses in your environment variables.
 
 2. **Build Frontend**
 ```bash
 npm run build
 ```
 
-3. **Update Canister IDs**
-Update the canister IDs in your environment variables.
-
 ## 📋 Smart Contract Functions
 
-### Blood Donation Backend
-- `registerDonor(name, bloodType, location)` - Register new donor
-- `recordDonation(recipientId, bloodType, amount, location)` - Record donation
-- `createBloodRequest(bloodType, amount, urgency, location)` - Create request
-- `fulfillBloodRequest(requestId, donationId)` - Fulfill request
-- `getDonations()` - Get all donations
-- `verifyDonation(donationId)` - Verify donation
+### Blood Donation Backend (Algorand ASC1)
+- `registerDonor(name, bloodType, location)` - Register new donor (Algorand account opt-in)
+- `recordDonation(recipientId, bloodType, amount, location)` - Record donation (Algorand transaction/note)
+- `createBloodRequest(bloodType, amount, urgency, location)` - Create request (Algorand smart contract call)
+- `fulfillBloodRequest(requestId, donationId)` - Fulfill request (Algorand smart contract call)
+- `getDonations()` - Get all donations (read from Algorand blockchain)
+- `verifyDonation(donationId)` - Verify donation (Algorand smart contract call)
 
-### NFT Certificate System
-- `mintDonationCertificate(request)` - Mint NFT for donation
-- `getTokenMetadata(tokenId)` - Get NFT metadata
-- `getTokensByOwner(owner)` - Get user's NFTs
-- `transferToken(tokenId, to)` - Transfer NFT
+### NFT Certificate System (Algorand ASA)
+- `mintDonationCertificate(request)` - Mint ASA NFT for donation
+- `getTokenMetadata(tokenId)` - Get ASA NFT metadata
+- `getTokensByOwner(owner)` - Get user's NFTs (Algorand address)
+- `transferToken(tokenId, to)` - Transfer ASA NFT
 
 ## 🎯 Key Features
 
 ### For Donors
-- ✅ Blockchain wallet integration
-- ✅ Automatic NFT certificate minting
+- ✅ Algorand wallet integration
+- ✅ Automatic ASA NFT certificate minting
 - ✅ Donation eligibility tracking (56-day rule)
 - ✅ Impact visualization with certificates
 - ✅ Shareable achievement system
@@ -114,7 +121,7 @@ Update the canister IDs in your environment variables.
 - ✅ Transparent request system
 - ✅ Real-time donor matching
 - ✅ Urgency-based prioritization
-- ✅ Blockchain-verified donations
+- ✅ Algorand-verified donations
 
 ### For Medical Professionals
 - ✅ Donation verification system
@@ -124,18 +131,18 @@ Update the canister IDs in your environment variables.
 
 ## 🔐 Security Features
 
-- **Internet Identity**: Secure, passwordless authentication
-- **Principal-based Access**: Unique blockchain identities
-- **Smart Contract Validation**: Business logic enforcement
+- **Algorand Wallet**: Secure, passwordless authentication
+- **Account-based Access**: Unique Algorand addresses
+- **Smart Contract Validation**: Business logic enforcement (Algorand ASC1)
 - **Immutable Records**: Tamper-proof donation history
 - **Verification System**: Medical professional oversight
 
 ## 🌟 Demo Highlights
 
-- **Live Blockchain**: Real transactions on Polygon
-- **NFT Minting**: Automatic certificate generation
-- **Wallet Connection**: Seamless Internet Identity integration
-- **Smart Contracts**: solidity
+- **Live Blockchain**: Real transactions on Algorand
+- **NFT Minting**: Automatic ASA certificate generation
+- **Wallet Connection**: Seamless Algorand wallet integration
+- **Smart Contracts**: PyTeal (Algorand ASC1)
 - **Immutable Records**: Verifiable donation history
 
 ## 📊 Platform Statistics
