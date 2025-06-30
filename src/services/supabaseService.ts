@@ -273,22 +273,24 @@ class SupabaseService {
 
   // Authentication helpers
   async signUp(email: string, password: string, userData: any) {
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: userData
-        }
-      });
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: userData
+      }
+    });
 
-      if (error) throw error;
-      return data;
-    } catch (error) {
-      console.error('Error signing up:', error);
-      throw error;
-    }
+    console.log("📥 SIGNUP data:", data);
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error('❌ Error signing up:', error);
+    throw error;
   }
+}
+
 
   async signIn(email: string, password: string) {
     try {
