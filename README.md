@@ -2,18 +2,18 @@
 
 **Your one pint of blood can save 5 Lives**
 
-A revolutionary blood donation platform built on Internet Computer Protocol (ICP) with smart contracts, NFT certificates, and real-time AI assistance.
+A revolutionary blood donation platform built on Polygon with smart contracts, NFT certificates, and real-time AI assistance.
 
 ## 🚀 Hackathon Features
 
-### ✅ ICP Smart Contracts
+### ✅ Polygon Smart Contracts
 - **Blood Donation Backend**: Immutable donation records with verification
 - **NFT Certificate System**: Blockchain-verified donation certificates
 - **Donor Registration**: On-chain donor profiles and eligibility tracking
 - **Request Management**: Transparent blood request system
 
 ### ✅ Real Wallet Integration
-- **Internet Identity**: Secure authentication with ICP
+- **Internet Identity**: Secure authentication with Polygon
 - **Principal-based**: Unique blockchain identities for all users
 - **Auto-connect**: Seamless wallet integration experience
 
@@ -24,7 +24,7 @@ A revolutionary blood donation platform built on Internet Computer Protocol (ICP
 - **Shareable**: Social media integration for impact sharing
 
 ### ✅ Immutable Records
-- **Blockchain Storage**: All donations stored on ICP canisters
+- **Blockchain Storage**: All donations stored on blockchain for transparency
 - **Verification System**: Medical professional verification workflow
 - **Audit Trail**: Complete transaction history
 - **Transparency**: Public verification of donation records
@@ -46,11 +46,11 @@ Smart Contracts (Motoko)
 ### Prerequisites
 - [DFX SDK](https://internetcomputer.org/docs/current/developer-docs/setup/install/) installed
 - Node.js 16+ and npm
-- Internet Computer wallet (Internet Identity)
+- Polygon wallet (Internet Identity)
 
 ### Local Development
 
-1. **Start ICP Replica**
+1. **Start Polygon Replica**
 ```bash
 dfx start --background
 ```
@@ -130,21 +130,12 @@ Update the canister IDs in your environment variables.
 - **Immutable Records**: Tamper-proof donation history
 - **Verification System**: Medical professional oversight
 
-## 🏆 Hackathon Achievements
-
-1. **✅ Real ICP Deployment**: Actual canisters deployed on Internet Computer
-2. **✅ Smart Contract Integration**: Motoko contracts with full functionality
-3. **✅ Wallet Integration**: Internet Identity authentication
-4. **✅ NFT System**: Automated certificate minting and management
-5. **✅ Immutable Storage**: All data stored on blockchain
-6. **✅ Production Ready**: Scalable architecture for real-world use
-
 ## 🌟 Demo Highlights
 
-- **Live Blockchain**: Real transactions on Internet Computer
+- **Live Blockchain**: Real transactions on Polygon
 - **NFT Minting**: Automatic certificate generation
 - **Wallet Connection**: Seamless Internet Identity integration
-- **Smart Contracts**: Deployed Motoko canisters
+- **Smart Contracts**: solidity
 - **Immutable Records**: Verifiable donation history
 
 ## 📊 Platform Statistics
