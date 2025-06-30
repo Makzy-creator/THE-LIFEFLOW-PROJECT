@@ -151,11 +151,14 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ mode, onModeChange, onSuccess }) =>
   };
 
   const handleSkipWallet = async () => {
-    // If user skips wallet, proceed to registration and email verification
+    // If user skips wallet, proceed to registration and onboarding
     const success = await register(formData);
     if (success) {
-      toast.success('Account created! Please check your email to verify your account.');
-      onSuccess?.();
+      toast.success('Account created! You can connect your wallet later.');
+      // Move user to login page after registration
+      if (onModeChange) {
+        onModeChange('login');
+      }
     }
   };
 

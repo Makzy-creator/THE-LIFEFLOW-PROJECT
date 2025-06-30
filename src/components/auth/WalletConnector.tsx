@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { connectMyAlgoWallet } from '../../services/myAlgoWalletService';
+import { connectPeraWallet } from '../../services/peraWalletService';
 import { 
   WalletIcon, 
   CheckCircleIcon, 
@@ -36,16 +37,32 @@ const WalletConnector: React.FC<WalletConnectorProps> = ({
     }
   }, [isConnected, walletAddress, onConnectionChange, user, updateProfile]);
 
-  const handleConnect = async () => {
+
+  const handleConnectMyAlgo = async () => {
     setIsConnecting(true);
     try {
       const address = await connectMyAlgoWallet();
       setWalletAddress(address);
       setIsConnected(true);
-      toast.success('Algorand wallet connected!');
+      toast.success('MyAlgo Wallet connected!');
     } catch (error) {
       console.error('Wallet connection failed:', error);
-      toast.error('Failed to connect Algorand wallet');
+      toast.error('Failed to connect MyAlgo Wallet');
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
+  const handleConnectPera = async () => {
+    setIsConnecting(true);
+    try {
+      const address = await connectPeraWallet();
+      setWalletAddress(address);
+      setIsConnected(true);
+      toast.success('Pera Wallet connected!');
+    } catch (error) {
+      console.error('Wallet connection failed:', error);
+      toast.error('Failed to connect Pera Wallet');
     } finally {
       setIsConnecting(false);
     }
@@ -171,9 +188,9 @@ const WalletConnector: React.FC<WalletConnectorProps> = ({
             </div>
           </div>
           
-          <div className="mt-4">
+          <div className="mt-4 flex flex-col gap-2">
             <button
-              onClick={handleConnect}
+              onClick={handleConnectMyAlgo}
               disabled={isConnecting}
               className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
@@ -185,7 +202,24 @@ const WalletConnector: React.FC<WalletConnectorProps> = ({
               ) : (
                 <>
                   <WalletIcon className="h-4 w-4" />
-                  <span>Connect Wallet</span>
+                  <span>Connect MyAlgo Wallet</span>
+                </>
+              )}
+            </button>
+            <button
+              onClick={handleConnectPera}
+              disabled={isConnecting}
+              className="inline-flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {isConnecting ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  <span>Connecting...</span>
+                </>
+              ) : (
+                <>
+                  <WalletIcon className="h-4 w-4" />
+                  <span>Connect Pera Wallet</span>
                 </>
               )}
             </button>
