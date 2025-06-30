@@ -137,12 +137,16 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ mode, onModeChange, onSuccess }) =>
   };
 
 
-  const handleWalletComplete = async () => {
-    // After wallet connect, now register and prompt for email verification
-    const success = await register(formData);
-    if (success) {
-      toast.success('Account created! Please check your email to verify your account.');
-      onSuccess?.();
+
+  // Called when wallet connection changes
+  const handleWalletComplete = async (connected: boolean, address?: string) => {
+    if (connected && address) {
+      // Register only after wallet is connected
+      const success = await register({ ...formData, walletAddress: address });
+      if (success) {
+        toast.success('Account created! Please check your email to verify your account.');
+        onSuccess?.();
+      }
     }
   };
 

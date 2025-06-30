@@ -8,8 +8,8 @@ import BloodDropletLogo from '../components/BloodDropletLogo';
 const Login: React.FC = () => {
   const { user } = useAuth();
 
-  // Redirect if already logged in
-  if (user) {
+  // Only redirect if user is fully onboarded (has walletAddress)
+  if (user && user.walletAddress) {
     return <Navigate to="/dashboard" replace />;
   }
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useWeb3Modal } from '@web3modal/react';
-import { useAccount, useDisconnect, useBalance } from 'wagmi';
+import { connectMyAlgoWallet } from '../../services/myAlgoWalletService';
 import { 
   WalletIcon, 
   CheckCircleIcon, 
@@ -24,39 +23,37 @@ const WalletConnector: React.FC<WalletConnectorProps> = ({
   showBalance = true,
   compact = false 
 }) => {
-  const { open } = useWeb3Modal();
-  const { address, isConnected, chain } = useAccount();
-  const { disconnect } = useDisconnect();
-  const { data: balance } = useBalance({ address });
   const { user, updateProfile } = useAuth();
-  
   const [isConnecting, setIsConnecting] = useState(false);
+  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
-    onConnectionChange?.(isConnected, address);
-    
-    // Update user profile with wallet address
-    if (isConnected && address && user && user.walletAddress !== address) {
-      updateProfile({ walletAddress: address });
+    onConnectionChange?.(isConnected, walletAddress || undefined);
+    if (isConnected && walletAddress && user && user.walletAddress !== walletAddress) {
+      updateProfile({ walletAddress });
     }
-  }, [isConnected, address, onConnectionChange, user, updateProfile]);
+  }, [isConnected, walletAddress, onConnectionChange, user, updateProfile]);
 
   const handleConnect = async () => {
     setIsConnecting(true);
     try {
-      await open();
-      toast.success('Wallet connected successfully!');
+      const address = await connectMyAlgoWallet();
+      setWalletAddress(address);
+      setIsConnected(true);
+      toast.success('Algorand wallet connected!');
     } catch (error) {
       console.error('Wallet connection failed:', error);
-      toast.error('Failed to connect wallet');
+      toast.error('Failed to connect Algorand wallet');
     } finally {
       setIsConnecting(false);
     }
   };
 
   const handleDisconnect = () => {
-    disconnect();
+    setWalletAddress(null);
+    setIsConnected(false);
     toast.success('Wallet disconnected');
   };
 
@@ -64,16 +61,11 @@ const WalletConnector: React.FC<WalletConnectorProps> = ({
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
   };
 
-  const formatBalance = (bal: any) => {
-    if (!bal) return '0';
-    return parseFloat(bal.formatted).toFixed(4);
-  };
-
-  if (compact && isConnected) {
+  if (compact && isConnected && walletAddress) {
     return (
       <div className="flex items-center space-x-2">
         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-        <span className="text-sm text-gray-700">{formatAddress(address!)}</span>
+        <span className="text-sm text-gray-700">{formatAddress(walletAddress)}</span>
         <button
           onClick={handleDisconnect}
           className="text-xs text-gray-500 hover:text-gray-700"
@@ -84,7 +76,7 @@ const WalletConnector: React.FC<WalletConnectorProps> = ({
     );
   }
 
-  if (isConnected && address) {
+  if (isConnected && walletAddress) {
     return (
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
@@ -95,33 +87,22 @@ const WalletConnector: React.FC<WalletConnectorProps> = ({
           <div className="flex items-center space-x-3">
             <CheckCircleIcon className="h-6 w-6 text-green-600" />
             <div>
-              <p className="text-sm font-medium text-green-900">Wallet Connected</p>
+              <p className="text-sm font-medium text-green-900">Algorand Wallet Connected</p>
               <div className="flex items-center space-x-2">
-                <p className="text-xs text-green-700">{formatAddress(address)}</p>
+                <p className="text-xs text-green-700">{formatAddress(walletAddress)}</p>
                 <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                  {chain?.name || 'Unknown'}
+                  Algorand
                 </span>
               </div>
             </div>
           </div>
-          
           <div className="flex items-center space-x-2">
-            {showBalance && balance && (
-              <div className="text-right">
-                <div className="flex items-center text-xs text-green-700">
-                  <CurrencyDollarIcon className="h-3 w-3 mr-1" />
-                  {formatBalance(balance)} {balance.symbol}
-                </div>
-              </div>
-            )}
-            
             <button
               onClick={() => setShowDetails(!showDetails)}
               className="text-xs text-green-700 hover:text-green-900 font-medium"
             >
               Details
             </button>
-            
             <button
               onClick={handleDisconnect}
               className="text-sm text-green-700 hover:text-green-900 font-medium"
@@ -130,7 +111,6 @@ const WalletConnector: React.FC<WalletConnectorProps> = ({
             </button>
           </div>
         </div>
-
         {showDetails && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
@@ -141,17 +121,12 @@ const WalletConnector: React.FC<WalletConnectorProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <div>
                 <p className="font-medium text-green-900 mb-1">Network Status</p>
-                <p className="text-green-700">✅ Connected to {chain?.name}</p>
-                <p className="text-green-700">✅ Multi-chain support enabled</p>
-                <p className="text-green-700">✅ Gas optimization active</p>
+                <p className="text-green-700">✅ Connected to Algorand TestNet</p>
+                <p className="text-green-700">✅ Blockchain features enabled</p>
               </div>
               <div>
                 <p className="font-medium text-green-900 mb-1">Wallet Info</p>
-                <p className="text-green-700">Address: {formatAddress(address)}</p>
-                <p className="text-green-700">Chain ID: {chain?.id}</p>
-                {balance && (
-                  <p className="text-green-700">Balance: {formatBalance(balance)} {balance.symbol}</p>
-                )}
+                <p className="text-green-700">Address: {formatAddress(walletAddress)}</p>
               </div>
             </div>
           </motion.div>
@@ -188,7 +163,7 @@ const WalletConnector: React.FC<WalletConnectorProps> = ({
             </div>
             <div className="flex items-center text-xs text-blue-700">
               <CheckCircleIcon className="h-3 w-3 mr-1" />
-              <span>Multi-chain support (Polygon + Solana)</span>
+            <span>Algorand blockchain support</span>
             </div>
             <div className="flex items-center text-xs text-blue-700">
               <CheckCircleIcon className="h-3 w-3 mr-1" />
