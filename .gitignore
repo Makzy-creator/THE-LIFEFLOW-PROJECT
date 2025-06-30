@@ -1,0 +1,8 @@
+node_modules
+OneDrive/
+.DS_Store
+desktop.ini
+*.log
+*.tmp
+node_modules/
+*.env
