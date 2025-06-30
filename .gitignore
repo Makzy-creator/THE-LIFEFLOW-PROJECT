@@ -6,3 +6,4 @@ desktop.ini
 *.tmp
 node_modules/
 *.env
+.env
