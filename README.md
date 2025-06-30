@@ -41,7 +41,21 @@ Algorand Smart Contracts (ASC1/TEAL/PyTeal)
     └── NFT Certificate System
 ```
 
-## 🛠️ Setup & Deployment
+
+## �️ Tavus AI Video Integration
+
+This app integrates Tavus for personalized AI video messaging.
+
+### How to Use Tavus
+
+1. Ensure your Tavus API key is set in your environment variables (e.g., `REACT_APP_TAVUS_API_KEY`).
+2. When a needs information on blood donation or blockchain. The Tavus agent, Dr. Vita is a blood donation Specialist and blockchain expert.
+3. The video is delivered via email or shown in-app after donation.
+4. To trigger Tavus, the app sends a request to the Tavus API with the user's details and donation info.
+
+**Note:** If Tavus is unavailable, ElevenLabs Conversational AI can be used as a fallback for voice/video messaging.
+
+For more details, see the Tavus documentation: https://docs.tavus.io/
 
 ### Prerequisites
 - Node.js 16+ and npm
