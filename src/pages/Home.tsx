@@ -14,6 +14,8 @@ import {
 import ConversationalAI from '../components/ConversationalAI'
 import TavusVideoButton from '../components/TavusVideoButton'
 import BloodDropletLogo from '../components/BloodDropletLogo'
+import { generateTavusVideo } from '../services/tavusService';
+
 
 const Home: React.FC = () => {
   const features = [
@@ -38,6 +40,8 @@ const Home: React.FC = () => {
       description: 'Track your donation impact and see how many lives you\'ve helped save.'
     }
   ]
+
+  // Remove direct call to generateTavusVideo here. TavusVideoButton/TavusVideoAgent will handle Tavus API calls when needed.
 
   const stats = [
     { number: '50,000+', label: 'Lives Saved' },
